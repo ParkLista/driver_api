@@ -10,10 +10,8 @@ dotenv.config({ path: `./config/config.env`});
 // Connect to the database
 connectDB();
 
-
 // Import Routes here
-const stage = require('./routes/stage');
-
+const driver = require('./routes/driver');
 
 const app = express();
 // Body Parser - Grabs data from the frontend
@@ -21,15 +19,13 @@ app.use(express.json());
 // Add Cors
 app.use(cors());
 
-
 // dev logging middleware
 if(process.env.NODE_ENV==='development'){
     app.use(logger);
 }
 
-
 // Routes to Mount
-app.use('/api/parklista/v1/driver', stage);
+app.use('/api/zazu/v1/driver', driver);
 
 // Handling Errors
 app.use(errorHandler);
@@ -37,6 +33,7 @@ app.use(errorHandler);
 // PORT
 const PORT = process.env.PORT || 5000;
 
+// Listening to Port 
 const server = app.listen(PORT, ()=>{
     console.log(`Server running in ${process.env.NODE_ENV} mode port ${PORT}`);
 });
