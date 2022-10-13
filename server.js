@@ -4,7 +4,7 @@ const connectDB = require('./config/db');
 const logger = require('./middleware/logger');
 const errorHandler = require('./middleware/error');
 const cors = require('cors');
-
+const SwaggerUI = require('swagger-ui-express');
 // Load ENV variables
 dotenv.config({ path: `./config/config.env`});
 // Connect to the database
@@ -12,6 +12,7 @@ connectDB();
 
 // Import Routes here
 const driver = require('./routes/driver');
+const SwaggerImplementation = require('./swagger/swagger');
 
 const app = express();
 // Body Parser - Grabs data from the frontend
@@ -29,6 +30,9 @@ app.use('/api/zazu/v1/driver', driver);
 
 // Handling Errors
 app.use(errorHandler);
+
+app.use('/api-docs/', SwaggerUI.serve, SwaggerUI.setup(SwaggerImplementation))
+
 
 // PORT
 const PORT = process.env.PORT || 5000;

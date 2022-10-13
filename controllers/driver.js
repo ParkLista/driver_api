@@ -17,6 +17,8 @@ exports.addDriver = asyncHandler(async(req, res, next)=>{
 /**
  * @Desc Get all the available taxis in the database
  */
+
+
 exports.getDriver = asyncHandler(async(req, res, next)=>{
     const driver = await Driver.find();
     return res.status(200).json({
