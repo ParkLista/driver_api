@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const Schema = mongoose.Schema;
-
 /**
  * @swagger
  * components:
@@ -33,7 +32,8 @@ const Schema = mongoose.Schema;
  *         body: my article
  *
  */
-const DriverSchema = new Schema({
+const DriverSchema = new Schema(
+    {
         firstname: {
             type: String,
             required: [true, 'Please add a name'],
@@ -75,20 +75,21 @@ const DriverSchema = new Schema({
             select: false
         },
         resetPasswordToken: String,
-        resetPasswordExpire: Date,
-},{
-    toJSON: { virtuals: true },
-    // toObject: {virtuals: true }
-});
+            resetPasswordExpire: Date,
+    },{
+        toJSON: { virtuals: true },
+        // toObject: {virtuals: true }
+    });
 
-// Encrypt the password before being saved to the database
-DriverSchema.pre('save', async function(next){
-    // In case the profile is just updated without changing the password field
-    if(!this.isModified('password')){
-        next();
+    // Encrypt the password before being saved to the database
+    DriverSchema.pre('save', async function(next){
+        // In case the profile is just updated without changing the password field
+        if(!this.isModified('password')){
+            next();
+        }
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt)
     }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt)
-})
+)
 
 module.exports = mongoose.model('Driver', DriverSchema);
