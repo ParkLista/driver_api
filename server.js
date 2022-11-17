@@ -4,17 +4,20 @@ const connectDB = require('./config/db');
 const logger = require('./middleware/logger');
 const errorHandler = require('./middleware/error');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 // Load ENV variables
 dotenv.config({ path: `./config/config.env`});
 // Connect to the database
 connectDB();
 
 // Import Routes here
-const driver = require('./routes/driver');
+const driver = require('./routes/auth');
 
 const app = express();
 // Body Parser - Grabs data from the frontend
 app.use(express.json());
+// Cookies
+app.use(cookieParser())
 // Add Cors
 app.use(cors());
 
@@ -24,7 +27,7 @@ if(process.env.NODE_ENV==='development'){
 }
 
 // Routes to Mount
-app.use('/api/zazu/v1/driver', driver);
+app.use('/api/zazu/v1/auth/driver', driver);
 
 // Handling Errors
 app.use(errorHandler);
