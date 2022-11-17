@@ -63,8 +63,7 @@ exports.register = asyncHandler(async(req, res, next)=>{
  * @Desc Get all the available taxis in the database
  */
 exports.getDriver = asyncHandler(async(req, res, next)=>{
-    const id = req.driver.id
-    const driver = await Driver.findOne({id});
+    const driver = await Driver. findById(req.driver.id);
     return res.status(200).json({
         success: true,
         message: 'Driver Profile',
