@@ -2,42 +2,34 @@ const Driver = require('../models/Driver');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 
-/** 
+/**
  *  @Desc Add a new driver to the database & return json token
  *  @route POST /api/zazu/v1/driver
  *  @access Public
  */
 exports.register = asyncHandler(async(req, res, next)=>{
-    
-    const { 
-            firstname, 
-            lastname, 
-            username, 
-            telephone, 
-            email, 
-            password 
-        } = req.body;
+    const { firstname, lastname, username, telephone, email, password } = req.body;
 
     const driver = await Driver.create({
-        firstname, 
-        lastname, 
-        username, 
-        telephone, 
-        email, 
+        firstname,
+        lastname,
+        username,
+        telephone,
+        email,
         password
     });
 
     sendTokenResponse(driver, 201, res);
-    
+
 });
 
-/** 
+/**
  *  @Desc Login the driver and return a token
  *  @route POST /api/zazu/v1/driver
  *  @access Public
  */
  exports.login = asyncHandler(async(req, res, next)=>{
-    
+
     const { email, password } = req.body;
     // validate email and password
     if(!email || !password){
