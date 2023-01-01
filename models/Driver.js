@@ -20,7 +20,7 @@ const DriverSchema = new Schema(
         },
         username: {
             type: String,
-            required: [true, 'Please add a Username'],
+            required: [true, 'Please add a username'],
             unique: true,
             trim: true,
             maxlength: [50, 'Name can not be more than 50 characters']
@@ -28,12 +28,13 @@ const DriverSchema = new Schema(
         telephone: {
             type: String,
             unique: true,
-            required: [true, 'Please add a Username'],
+            required: [true, 'Please add a telephone'],
             maxlength: [20, 'Phone number can not be longer than 20 characters']
         },
         email: {
             type: String,
-            required: [true, 'Please add a Username'],
+            required: [true, 'Please add a email'],
+            unique: true,
             match: [
                 /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
                 'Please add a valid email',
@@ -48,6 +49,10 @@ const DriverSchema = new Schema(
             required: [ true, 'Please add a password'],
             minlength: 6,
             select: false
+        },
+        isVerified: {
+            type: Boolean,
+            default: false
         },
         resetPasswordToken: String,
         resetPasswordExpire: Date,

@@ -10,16 +10,28 @@ const errorHandler = (err, req, res, next) => {
         error = new ErrorResponse(message, 404);
     }
     // Mongoose Duplicate Key
-    if(err.code ===  11000){
-        const message = `Duplicate field value entered`;
+    if(err.code ===  11000 && err.keyPattern.username){
+        const message = `The username you are using is already taken`;
         error = new ErrorResponse(message, 400);
     }
+
+    // Duplicate email
+    if(err.code ===  11000 && err.keyPattern.email){
+        const message = `The email you are using is already taken`;
+        error = new ErrorResponse(message, 400);
+    }
+
+    if(err.code ===  11000 && err.keyPattern.telephone){
+        const message = `The telephone you are using is already taken`;
+        error = new ErrorResponse(message, 400);
+    }
+
     // Mongoose validation error
     if(err.name === 'ValidationError'){
         const message = Object.values(err.errors).map(val => val.message);
         error = new ErrorResponse(message, 400);
     }
-    res.status(error.StatusCode || 500).json({
+    res.status(error.statusCode || 500).json({
         success: false,
         error: error.message || 'Server Error'
     });

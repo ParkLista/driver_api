@@ -11,7 +11,8 @@ dotenv.config({ path: `./config/config.env`});
 connectDB();
 
 // Import Routes here
-const driver = require('./routes/auth');
+const auth = require('./routes/auth');
+const driver = require('./routes/driver');
 
 const app = express();
 // Body Parser - Grabs data from the frontend
@@ -27,7 +28,8 @@ if(process.env.NODE_ENV==='development'){
 }
 
 // Routes to Mount
-app.use('/api/zazu/v1/auth/driver', driver);
+app.use('/api/zazu/v1/auth/driver', auth);
+app.use('/api/zazu/v1/driver', driver);
 
 // Handling Errors
 app.use(errorHandler);
