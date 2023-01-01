@@ -1,6 +1,7 @@
 const Driver = require('../models/Driver');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
+const { sendVerificationMsg } = require('../middleware/verify/verify-otp');
 
 /**
  *  @Desc Add a new driver to the database & return json token
@@ -17,10 +18,9 @@ exports.register = asyncHandler(async(req, res, next)=>{
         telephone,
         email,
         password
-    });
-
-    sendTokenResponse(driver, 201, res);
-
+    });    
+    sendVerificationMsg(telephone);
+    sendTokenResponse(driver, 201, msg);
 });
 
 /**
@@ -84,3 +84,5 @@ const sendTokenResponse = (driver, statusCode, res)=>{
             token
         })
 }
+
+
